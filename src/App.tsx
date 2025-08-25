@@ -1,24 +1,78 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "react-toastify/dist/ReactToastify.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
+import { useNavigationType } from "react-router-dom";
+
+import Feed from "./layouts/Feed";
+
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+
+
+
+
+
+// import ShareModal from "./components/global/ShareModal";
+// import Modal from "./components/global/Modal";
+// import {
+//   closeShareModel,
+//   updatePathQueue,
+// } from "./lib/redux/slices/controlSlice";
+
+import Sidebar from "./layouts/Sidebar";
+import { useViewport } from "./hooks/useViewport";
+import BottomNav from "./mobile components/BottomNav";
+import { MOBILE_VIEW_ENDPOINT } from "./constants";
+import NotFound from "./pages/NotFound";
+;
 function App() {
+  const lang = useSelector((state: any) => state?.user?.lang);
+
+  const { isMobile, sizeInfo } = useViewport();
+  //const lang = localStorage.getItem("lang") || reduxLang;
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className="text-primary dark:text-white  "
+      dir={lang == "ar" ? "rtl" : "ltr"}
+    >
+      <Routes>
+       
+        <Route path="not-found" element={<NotFound />} />
+        
+       
+        <Route
+          path="*"
+          element={
+            <div className="flex w-full h-dvh ">
+              {/* <Sidebar /> */}
+              <Sidebar />
+              <Feed />
+              {sizeInfo.currentWidth < MOBILE_VIEW_ENDPOINT && <BottomNav />}
+              {/* {isShareModelOpen && (
+                <Modal
+                  isOpen={isShareModelOpen}
+                  onClose={() => {
+                    dispatch(closeShareModel());
+                  }}
+                >
+                  <ShareModal inviteLink={shareModelInfo.link} />
+                </Modal>
+              )} */}
+            </div>
+          }
+        />
+      </Routes>
+      <ToastContainer />
     </div>
   );
 }
