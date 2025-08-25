@@ -1,4 +1,4 @@
-export const baseURL = "http://localhost:8000/";
+export const baseURL = "https://un-project.onrender.com";
 
 export const SOCKET_URL = "wss://erp-dev.mocion.io/websocket/";
 //  auth
