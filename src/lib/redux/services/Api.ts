@@ -58,8 +58,9 @@ export const Api = createApi({
       
     }),
     getAllStatics:builder.query({
-        query: ({limit=10,currentPage=1}) =>
-        `/api/rating/statics?limit=${limit}&page=${currentPage}`,
+        query: (query) =>{
+          const {limit=10,currentPage=1,areaName="",reviewer="",constructionType="",buildingStatus=""} = query
+        return`/api/rating/statics?limit=${limit }&page=${currentPage}&areaName=${areaName}&reviewer=${reviewer}&constructionType=${constructionType}&buildingStatus=${buildingStatus}&function=${query.function || ''}`},
       providesTags:['storage']
       
     }),
