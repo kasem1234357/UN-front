@@ -61,7 +61,42 @@ function AleppoMap({dataKeys}:props) {
     console.log(dataKeys.dataList);
     const [stateFilter,setStateFilter]=useState('')
     const [typeFilter,setTypeFilter]=useState('')
-    
+  const exportToJsonFile = () => {
+    const results:any = []
+    dataKeys?.dataList?.forEach((item:any, idx:number) => {
+        if(!item.index){
+            return null
+        }
+        else if(stateFilter && item.key !== stateFilter && stateFilter !== 'all'){
+            return null
+        }
+        else if(typeFilter && item.function !== typeFilter && typeFilter !== 'all'){
+            return null
+        }
+        else{
+ results.push({
+  ...geoJsonData.features[item.index],
+  report:item
+})
+        }
+       
+       
+      })
+      console.log(results);
+      
+    const fileName = "data.json";
+    const jsonStr = JSON.stringify(results, null, 2); // pretty print with 2 spaces
+
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.click();
+
+    URL.revokeObjectURL(url); // cleanup
+  };  
   const polygons = useMemo(
     () =>
       geoJsonData.features.map((feature, idx) => {
@@ -98,7 +133,8 @@ function AleppoMap({dataKeys}:props) {
   );
   return (
     <div className="relative ">
-        <MapFilters typeFilter={typeFilter} setTypeFilter={setTypeFilter} stateFilter={stateFilter} setStateFilter={setStateFilter}/>
+
+        <MapFilters typeFilter={typeFilter} setTypeFilter={setTypeFilter} stateFilter={stateFilter} setStateFilter={setStateFilter} exportToJsonFile={exportToJsonFile}/>
         <LoadScript googleMapsApiKey={"AIzaSyCEbRUDAvy7CNUMi5_o61CI5wv7gwv6mZ4"}>
       <GoogleMap
 

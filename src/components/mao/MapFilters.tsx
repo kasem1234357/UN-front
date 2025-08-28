@@ -1,14 +1,17 @@
 import React from 'react'
 import Select from "react-select";
 import { selectStyle, selectTheme } from "../../styles/selectStyles";
+import ExportIcon from "../../assets/icons/ExportIcon";
+import ImageIcon from '../global/ImageIcon';
 type Props = {
  setTypeFilter:any,
     typeFilter:any,
     setStateFilter:any
-    stateFilter:any
+    stateFilter:any,
+    exportToJsonFile:any
 }
 
-function MapFilters({setTypeFilter,typeFilter,setStateFilter,stateFilter}: Props) {
+function MapFilters({setTypeFilter,typeFilter,setStateFilter,stateFilter,exportToJsonFile}: Props) {
     const TypeOptions = [
         { label:  "كل الحالات", value: "all" },
  { label: "سكني", value: "residence" },
@@ -31,7 +34,7 @@ function MapFilters({setTypeFilter,typeFilter,setStateFilter,stateFilter}: Props
     { label: "سليم", value: "minor" },
     ]
   return (
-    <div className='absolute z-10 flex gap-8 top-3 left-[250px]'>
+    <div className='absolute z-10 flex gap-8 top-3 left-[250px] items-center'>
         <div className='bg-white rounded-lg'>
              <div className='min-w-[150px]' >
                             
@@ -72,6 +75,21 @@ function MapFilters({setTypeFilter,typeFilter,setStateFilter,stateFilter}: Props
                             />
                           </div>
         </div>
+        <button
+      className="flex gap-2 items-center bg-[#F3F3F3] dark:bg-primaryLight p-2 rounded-md border border-main-1"
+      onClick={() => {
+         exportToJsonFile()
+      }}
+    >
+      
+        <ImageIcon
+          Icon={ExportIcon}
+          width={32}
+          height={32}
+          className="min-w-[32px]"
+        />
+    
+    </button>
     </div>
   )
 }
