@@ -82,10 +82,13 @@ function AleppoMap({dataKeys}:props) {
        
        
       })
-      console.log(results);
+      const jsonData = {
+        type:"FeatureCollection",
+        features:results
+      }
       
     const fileName = "data.json";
-    const jsonStr = JSON.stringify(results, null, 2); // pretty print with 2 spaces
+    const jsonStr = JSON.stringify(jsonData, null, 2); // pretty print with 2 spaces
 
     const blob = new Blob([jsonStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -154,3 +157,4 @@ function AleppoMap({dataKeys}:props) {
 }
 
 export default AleppoMap;
+ 
